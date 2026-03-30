@@ -441,14 +441,24 @@ struct QuickActionButton: View {
 // MARK: - Todo View
 
 struct TodoView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: TodoViewModel?
+
     var body: some View {
         NavigationView {
-            VStack {
-                Text("待办事项")
-                    .font(.title)
-                    .foregroundColor(.secondary)
+            Group {
+                if let viewModel = viewModel {
+                    TodoModuleView(viewModel: viewModel)
+                } else {
+                    ProgressView("加载中...")
+                }
             }
             .navigationTitle("待办")
+            .onAppear {
+                if viewModel == nil {
+                    viewModel = TodoViewModel(modelContext: modelContext)
+                }
+            }
         }
     }
 }
@@ -456,14 +466,24 @@ struct TodoView: View {
 // MARK: - Calendar View
 
 struct CalendarView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: CalendarViewModel?
+
     var body: some View {
         NavigationView {
-            VStack {
-                Text("日程管理")
-                    .font(.title)
-                    .foregroundColor(.secondary)
+            Group {
+                if let viewModel = viewModel {
+                    CalendarModuleView(viewModel: viewModel)
+                } else {
+                    ProgressView("加载中...")
+                }
             }
             .navigationTitle("日程")
+            .onAppear {
+                if viewModel == nil {
+                    viewModel = CalendarViewModel(modelContext: modelContext)
+                }
+            }
         }
     }
 }
@@ -471,15 +491,88 @@ struct CalendarView: View {
 // MARK: - Delivery View
 
 struct DeliveryView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: DeliveryViewModel?
+
     var body: some View {
         NavigationView {
-            VStack {
-                Text("快递查询")
-                    .font(.title)
-                    .foregroundColor(.secondary)
+            Group {
+                if let viewModel = viewModel {
+                    DeliveryModuleView(viewModel: viewModel)
+                } else {
+                    ProgressView("加载中...")
+                }
             }
             .navigationTitle("快递")
+            .onAppear {
+                if viewModel == nil {
+                    viewModel = DeliveryViewModel(modelContext: modelContext)
+                }
+            }
         }
+    }
+}
+
+// MARK: - Payment View
+
+struct PaymentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: PaymentViewModel?
+
+    var body: some View {
+        NavigationView {
+            Group {
+                if let viewModel = viewModel {
+                    PaymentModuleView(viewModel: viewModel)
+                } else {
+                    ProgressView("加载中...")
+                }
+            }
+            .navigationTitle("缴费")
+            .onAppear {
+                if viewModel == nil {
+                    viewModel = PaymentViewModel(modelContext: modelContext)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Travel View
+
+struct TravelView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: TravelViewModel?
+
+    var body: some View {
+        NavigationView {
+            Group {
+                if let viewModel = viewModel {
+                    TravelModuleView(viewModel: viewModel)
+                } else {
+                    ProgressView("加载中...")
+                }
+            }
+            .navigationTitle("出行")
+            .onAppear {
+                if viewModel == nil {
+                    viewModel = TravelViewModel(modelContext: modelContext)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Content Processing View
+
+struct ContentProcessingView: View {
+    @State private var viewModel = ContentProcessingViewModel()
+
+    var body: some View {
+        NavigationView {
+            ContentProcessingModuleView(viewModel: viewModel)
+        }
+        .navigationTitle("内容处理")
     }
 }
 
